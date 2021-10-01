@@ -19,6 +19,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -32,6 +33,9 @@ public class WebSiteLinkResource {
 
 	@Autowired
 	private WebSiteLinkService webSiteLinkService;
+	
+	@Value("${context}")
+	private String context;
 
 	@RolesAllowed("ADMIN")
 	@POST
@@ -39,6 +43,9 @@ public class WebSiteLinkResource {
 	public Response createWebLink(WebSiteLinkDetails webSiteLinkDetails) throws URISyntaxException {
 
 		webSiteLinkDetails = webSiteLinkService.createWebSiteLink(webSiteLinkDetails);
+		
+		System.out.println(" context  "+context);
+		
 		return Response.status(201).entity("Web link is created successfully with id = " + webSiteLinkDetails.getId())
 				.contentLocation(new URI("/employees/" + webSiteLinkDetails.getId())).build();
 	}
@@ -54,6 +61,8 @@ public class WebSiteLinkResource {
 		List<WebSiteLinkDetails> webSiteLinkDetails = webSiteLinkService.getWebSiteLinksBasedonProperty(property);
 		
 		jsonObject.add("web link", new Gson().toJsonTree(webSiteLinkDetails));
+		
+		System.out.println(" context  "+context);
 		
 		return jsonObject;
 	}

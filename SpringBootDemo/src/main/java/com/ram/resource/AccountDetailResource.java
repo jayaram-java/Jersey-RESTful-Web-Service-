@@ -106,14 +106,4 @@ public class AccountDetailResource {
 		}
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
 }
