@@ -18,11 +18,14 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.ram.Application;
 import com.ram.model.WebSiteLinkDetails;
 import com.ram.service.WebSiteLinkService;
 
@@ -30,6 +33,9 @@ import com.ram.service.WebSiteLinkService;
 @XmlRootElement(name = "websitelinkresources")
 @Path("/websitelinkresources")
 public class WebSiteLinkResource {
+	
+	
+	private static final Logger logger = LogManager.getLogger(WebSiteLinkResource.class);
 
 	@Autowired
 	private WebSiteLinkService webSiteLinkService;
@@ -44,7 +50,7 @@ public class WebSiteLinkResource {
 
 		webSiteLinkDetails = webSiteLinkService.createWebSiteLink(webSiteLinkDetails);
 		
-		System.out.println(" context  "+context);
+		logger.info("createWebLink for "+webSiteLinkDetails);
 		
 		return Response.status(201).entity("Web link is created successfully with id = " + webSiteLinkDetails.getId())
 				.contentLocation(new URI("/employees/" + webSiteLinkDetails.getId())).build();
